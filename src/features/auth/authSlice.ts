@@ -14,7 +14,7 @@ const auth=createSlice({
     name:'auth',
     initialState,
     reducers:{
-        saveToken(state,{payload}){
+        saveToken(state,{payload}:PayloadAction<any>){
             if(payload){
                 state.token=payload
             }
@@ -22,7 +22,7 @@ const auth=createSlice({
         clearToken(state){
             state.token=null
         },
-        setAuthState(state,{payload}){
+        setAuthState(state,{payload}:PayloadAction<any>){
             state.isAuthenticated=payload
         }
     }
