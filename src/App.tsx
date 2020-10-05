@@ -1,13 +1,30 @@
-import React,{lazy,Suspense,FC,useState} from 'react';
+import React, { lazy, Suspense, FC, useState } from 'react';
+import { useSelector } from 'react-redux'
+import { RootState } from './rootReducer'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
-import {Home} from './features/home/Home'
-import {Auth} from './features/auth/ Auth'
-// const Auth:any=lazy(()=>{<Home/>})
-const App:FC=()=> {
-const [isLoggedIn,setIsLogedIn]=useState(true)
+import Editor from './features/entry/Editor'
+const Auth = lazy(() => import('./features/auth/Auth'));
+const Home = lazy(() => import('./features/home/Home'));
+const App: FC = () => {
+  const isLogedIn = useSelector((state: RootState) => state.auth.isAuthenticated)
   return (
     <div className="App">
-      {isLoggedIn?<Auth/>:<Home/>}
+      <Router>
+        <Route exact path="/">
+
+          <Suspense fallback={<p>Loading...</p>}>
+
+            {isLogedIn ? <Home /> : <Auth />}
+          </Suspense>
+        </Route>
+
+      </Router>
     </div>
   );
 }

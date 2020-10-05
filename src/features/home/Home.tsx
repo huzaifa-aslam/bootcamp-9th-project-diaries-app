@@ -1,9 +1,10 @@
 import React,{FC} from 'react'
 
-export const Home:FC = () => {
+const Home:FC = () => {
     return (
         <div>
             Welcome User!
         </div>
     )
 }
+export default Home
