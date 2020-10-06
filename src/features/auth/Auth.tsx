@@ -5,7 +5,12 @@ import * as Yup from 'yup';
 import { User } from '../../interfaces/user.interfaces'
 import { useForm } from 'react-hook-form';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import {useAppDispatch} from './../../store'
 import './Auth.css'
+import http from './../../services/api'
+import {AuthResponse} from './../../services/mirage/routes/user'
+import {saveToken, setAuthState } from './authSlice'
+import {setUser} from './userSlice'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,22 +30,39 @@ const schema = Yup.object().shape({
 });
 
 const Auth: FC = () => {
-    const { handleSubmit, errors, register } = useForm()
+    const { handleSubmit, register, errors } = useForm<User>({
+
+      });
     const classes = useStyles()
     const [isLogIn, setIsLogIn] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const dispatch=useAppDispatch()
+    const submitForm=(data:User)=>{
+        const path=isLogIn?'/auth/login':'/auth/signup'
+        http
+            .post<User,AuthResponse>(path,data)
+            .then((res)=>{
+                if(res){
+                    const {user,token}=res
+                    dispatch(saveToken(token));
+                    dispatch(setUser(user));
+                    dispatch(setAuthState(true))
+                }
+            })
+    }
     return (
         <Grid container style={{marginTop: "50px"}}>
             <Grid item sm={3}></Grid>
             <Grid item sm={6}>
-                <Typography><h2>LogIn</h2></Typography> <LockOpenIcon className="logInIcon"></LockOpenIcon>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField variant="outlined" name="username" label="Name" /><br />
+                <Typography  variant="h3">LogIn</Typography> <LockOpenIcon className="logInIcon"></LockOpenIcon>
+                <form onSubmit={handleSubmit(submitForm)} className={classes.root} noValidate autoComplete="off">
+                    <TextField ref={register} variant="outlined" name="username" label="Name" /><br />
 
-                    <TextField variant="outlined" type="number" name="Password" label="Password" /><br />
+                    <TextField ref={register} variant="outlined" type="number" name="Password" label="Password" /><br />
 
                     {!isLogIn && (
 
-                        <><TextField variant="outlined" type="text" name="email" label="Email" /><br /></>
+                        <><TextField ref={register} variant="outlined" type="text" name="email" label="Email" /><br /></>
                     )}
                     <><Button style={{width: "73%"}} variant="contained" color="primary" type="submit">{isLogIn ? 'Login' : 'Create an Account'}</Button><br /></>
                     <div style={{margin:" 0 auto"}}>

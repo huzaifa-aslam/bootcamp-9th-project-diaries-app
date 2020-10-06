@@ -3,7 +3,6 @@ import { Button, List, ListItem, ListItemText, Divider } from '@material-ui/core
 import { makeStyles } from '@material-ui/core/styles';
 import KeyboardBackspaceOutlinedIcon from '@material-ui/icons/KeyboardBackspaceOutlined';
 import './DiariesEntries.css';
-// import classnames from 'classnames'
 
 
 const useStyles = makeStyles((theme) => ({
