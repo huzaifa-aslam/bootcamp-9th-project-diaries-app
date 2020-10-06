@@ -19,6 +19,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../rootReducer';
 import { addDiary } from './diariesSlice';
 import { setUser } from '../auth/userSlice';
+import { setCanEdit, setActiveDiaryId, setCurrentlyEditing } from '../entry/editorSlice';
+
 
 
 
