@@ -4,7 +4,6 @@ import {User} from '../../../interfaces/user.interface'
 import {Diary} from '../../../interfaces/diary.interfaces'
 import dayjs from 'dayjs'
 import { Entry } from '../../../interfaces/entery.interface';
-
 export const create = (schema: any, req: Request): {user: User, diary: Diary} | Response => {
     try {
         const { title, type, userId} = JSON.parse(req.requestBody) as Partial <Diary>
