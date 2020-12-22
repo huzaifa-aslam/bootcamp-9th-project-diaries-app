@@ -3,7 +3,7 @@ import {handleErrors} from '../server'
 import {User} from '../../../interfaces/user.interface'
 import {Diary} from '../../../interfaces/diary.interfaces'
 import dayjs from 'dayjs'
-import { Entry } from '../../../interfaces/entery.interface';
+import { Entry } from '../../../interfaces/entry.interface';
 export const create = (schema: any, req: Request): {user: User, diary: Diary} | Response => {
     try {
         const { title, type, userId} = JSON.parse(req.requestBody) as Partial <Diary>
